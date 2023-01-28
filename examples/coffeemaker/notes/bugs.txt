@@ -4,6 +4,6 @@
 
 3.The function editRecipe() had a problem on line 126 where function should have returned true. The new recipe name was being compared to names in the array instead of the old recipe name, resulting in no updates taking place. The error was fixed by replacing in "if" statement variable newRecipe to oldRecipe.
 
-4.The function addInventory() had an error on line 150 where if statement wanted sugar variable to be lower than 0, but we wanted to be higher than 0. The issue was resolved by changing the sign in the if statement between amtSugar and 0 from > to <.
+4.The function addInventory() had an error on line 150 where if statement wanted sugar variable to be higher than 0, but we wanted to be lower than 0. The issue was resolved by changing the sign in the if statement between amtSugar and 0 from > to <.
 
 5.The function makeCoffee() had a mistake on line 186 where it added the coffee needed for the recipe to the inventory, instead of subtracting it. The error was fixed by changing the + to - in the function.
