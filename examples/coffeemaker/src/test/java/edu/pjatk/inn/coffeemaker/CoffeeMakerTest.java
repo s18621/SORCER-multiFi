@@ -13,8 +13,9 @@ import org.sorcer.test.SorcerTestRunner;
 import sorcer.service.ContextException;
 import sorcer.service.Routine;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.Arrays;
+
+import static org.junit.Assert.*;
 import static sorcer.eo.operator.*;
 import static sorcer.so.operator.eval;
 import static sorcer.so.operator.exec;
@@ -111,17 +112,72 @@ public class CoffeeMakerTest {
 		coffeeMaker.addRecipe(mocha);
 		coffeeMaker.addRecipe(macchiato);
 		coffeeMaker.addRecipe(americano);
+		coffeeMaker.addRecipe(espresso);
 
 		assertEquals(coffeeMaker.getRecipeForName("mocha").getName(), "mocha");
 		assertEquals(coffeeMaker.getRecipeForName("macchiato").getName(), "macchiato");
 		assertEquals(coffeeMaker.getRecipeForName("americano").getName(), "americano");
+		assertNull(coffeeMaker.getRecipeForName("espresso"));
 	}
 
 	@Test
 	public void makeCoffee() throws Exception {
 		coffeeMaker.addRecipe(espresso);
+
+		Inventory inventory_new = coffeeMaker.checkInventory();
+
+		int chocolate = inventory.getChocolate();
+		int sugar = inventory.getSugar();
+		int coffee = inventory.getCoffee();
+		int milk = inventory.getMilk();
+
 		assertEquals(coffeeMaker.makeCoffee(espresso, 200), 150);
+
+		inventory_new = coffeeMaker.checkInventory();
+
+		assertEquals(inventory_new.getChocolate(), chocolate - espresso.getAmtChocolate());
+		assertEquals(inventory_new.getSugar(), sugar - espresso.getAmtSugar());
+		assertEquals(inventory_new.getCoffee(), coffee - espresso.getAmtCoffee());
+		assertEquals(inventory_new.getMilk(), milk - espresso.getAmtMilk());
+	}
+
+
+	@Test
+	public void deleteRecipe () {
+		coffeeMaker.addRecipe(espresso);
+		assertTrue(coffeeMaker.deleteRecipe(espresso));
+		assertFalse(Arrays.asList(coffeeMaker.getRecipes()).contains(espresso));
+	}
+
+	@Test
+	public void deleteRecipes () {
+		coffeeMaker.deleteRecipes();
+		for (int i = 0; i < coffeeMaker.getRecipes().length; i++) assertEquals(coffeeMaker.getRecipes()[i], new Recipe());
+	}
+
+	@Test
+	public void editRecipe () {
+		coffeeMaker.addRecipe(mocha);
+		assertTrue(Arrays.asList(coffeeMaker.getRecipes()).contains(mocha));
+		coffeeMaker.editRecipe(mocha, espresso);
+		assertFalse(Arrays.asList(coffeeMaker.getRecipes()).contains(mocha));
+		assertTrue(Arrays.asList(coffeeMaker.getRecipes()).contains(espresso));
+	}
+
+	@Test
+	public void addInventory () {
+		assertTrue(coffeeMaker.addInventory( 1, 1, 1, 1));
+		assertFalse(coffeeMaker.addInventory( -1, 0, 0, 0));
+		assertFalse(coffeeMaker.addInventory( 0, -1, 0, 0));
+		assertFalse(coffeeMaker.addInventory( 0, 0, -1, 0));
+		assertFalse(coffeeMaker.addInventory( 0, 0, 0, -1));
+
+		Inventory inventory_new = coffeeMaker.checkInventory();
+
+		assertEquals(inventory_new.getChocolate(), 16);
+		assertEquals(inventory_new.getCoffee(), 16);
+		assertEquals(inventory_new.getMilk(), 16);
+		assertEquals(inventory_new.getSugar(), 16);
 	}
 
 }
-
