@@ -1,0 +1,21 @@
+import edu.pjatk.inn.coffeemaker.CoffeeDBService
+import edu.pjatk.inn.coffeemaker.CoffeeMachineAppService
+import sorcer.service.*
+import static sorcer.co.operator.*
+import static sorcer.eo.operator.*
+
+
+Task addRecipe = task(sig("addRecipe", CoffeeDBService.class), context(
+        val("key", "chocolate"),
+        val("price", 420),
+        val("amtCoffee", 0),
+        val("amtMilk", 0),
+        val("amtSugar", 1),
+        val("amtChocolate", 10)
+         ));
+
+Task getRecipe = task(sig("getRecipe", CoffeeMachineAppService.class), context(
+        val("recipe/key", "chocolate")));
+
+job("job", addRecipe, getRecipe,
+        pipe(outPoint(addRecipe, "key"), inPoint(getRecipe, "recipe/key")));
