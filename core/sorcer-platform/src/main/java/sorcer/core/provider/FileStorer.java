@@ -20,7 +20,6 @@ package sorcer.core.provider;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
-import javax.transaction.InvalidTransactionException;
 
 import sorcer.util.DocumentDescriptor;
 
@@ -37,10 +36,9 @@ public interface FileStorer {
 	 * @return a document descriptor initialized for read operations
 	 * @throws RemoteException
 	 * @throws IOException
-	 * @throws InvalidTransactionException
 	 */
 	public DocumentDescriptor getInputDescriptor(DocumentDescriptor desc)
-			throws RemoteException, IOException, InvalidTransactionException;
+			throws RemoteException, IOException;
 
 	/**
 	 * Returns a document descriptor intialized for file appending operations.
@@ -50,10 +48,9 @@ public interface FileStorer {
 	 * @return a document descriptor initialized for append operations
 	 * @throws RemoteException
 	 * @throws IOException
-	 * @throws InvalidTransactionException
 	 */
 	public DocumentDescriptor getAppendDescriptor(DocumentDescriptor desc)
-			throws RemoteException, IOException, InvalidTransactionException;
+			throws RemoteException, IOException;
 
 	/**
 	 * Returns a document descriptor intialized for file writing operations.
@@ -63,10 +60,9 @@ public interface FileStorer {
 	 * @return a document descriptor initialized for write operation
 	 * @throws RemoteException
 	 * @throws IOException
-	 * @throws InvalidTransactionException
 	 */
 	public DocumentDescriptor getOutputDescriptor(DocumentDescriptor desc)
-			throws RemoteException, IOException, InvalidTransactionException;
+			throws RemoteException, IOException;
 
 	/**
 	 * Lists all directories available on the file store.

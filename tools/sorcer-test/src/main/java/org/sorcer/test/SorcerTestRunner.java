@@ -83,7 +83,7 @@ public class SorcerTestRunner extends BlockJUnit4ClassRunner {
             ProjectContext projectContext = getTestClass().getJavaClass().getAnnotation(ProjectContext.class);
             if (projectContext != null) {
                 String rootDir = System.getProperty("user.dir");
-                File baseDir = new File(rootDir, projectContext.value());
+                File baseDir = new File("C:\\Users\\Mati\\Desktop\\INN\\SORCER-multiFi", projectContext.value());
                 System.out.println("Base dir: " + baseDir.getPath());
                 File testProperties = new File(baseDir, "build/configs/test.properties");
                 System.out.println("Test config: " + testProperties.getPath());
